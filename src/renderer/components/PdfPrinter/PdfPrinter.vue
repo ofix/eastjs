@@ -1,29 +1,56 @@
 <template>
   <el-container>
-    <el-aside width="200px"> 左侧菜单 </el-aside>
+    <el-aside width="340px">
+      <left-panel></left-panel>
+    </el-aside>
     <el-container>
-      <el-main>中间内容</el-main>
+      <el-main>
+        <!-- <webview id="pdf-url" :src="pdfEntry" preload="./MenuParser.js"></webview> -->
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import LeftPanel from "./LeftPanel";
 export default {
   name: "pdf-printer",
+  components: { LeftPanel },
+  data(){
+    return {
+      pdfEntry:''
+    }
+  },
   methods: {
     open(link) {
       this.$electron.shell.openExternal(link);
     },
+    pdfUrlUpdated(data){
+      this.pdfEntry = data.pdfEntry;
+      // const webview = document.querySelector('webview')
+      // webview.reload();
+    }
   },
 };
 </script>
 
-<style scoped>
+<style>
+html,
+body,
+#app,
+.el-container {
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+#pdf-url{
+  width:100%;
+  height:100%;
+}
 .el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
+  border-right:1px solid #ddd;
+  height: 100%;
+  padding:16px;
 }
 .el-main {
   background-color: #e9eef3;
